@@ -21,3 +21,23 @@ function GetRotation(PivotPointX,PivotPointY,PointX,PointY,Degrees)
 
     return NewXCord,NewXCord
 end
+
+
+CeaserCipherIndex = { --Will finish this later, I have stuff to do though
+    ["A"] = 1,
+    ["B"] = 2,
+    ["C"] = 3,
+    ["D"] = 4,
+    ["E"] = 5,
+}
+
+
+function CeaserCipherCracker(Text,BruteForce,Shift)
+    if BruteForce == true then
+        local StartShift = -26
+        Shifts = {}
+        while StartShift < 27 do
+            
+        end
+    end
+end
