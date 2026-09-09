@@ -23,21 +23,62 @@ function GetRotation(PivotPointX,PivotPointY,PointX,PointY,Degrees)
 end
 
 
-CeaserCipherIndex = { --Will finish this later, I have stuff to do though
-    ["A"] = 1,
-    ["B"] = 2,
-    ["C"] = 3,
-    ["D"] = 4,
-    ["E"] = 5,
+CeaserCipherIndex = { --WIP
+    ["A"] = 0,
+    ["B"] = 1,
+    ["C"] = 2,
+    ["D"] = 3,
+    ["E"] = 4,
+    ["F"] = 5,
+    ["G"] = 6,
+    ["H"] = 7,
+    ["I"] = 8,
+    ["J"] = 9,
+    ["K"] = 10,
+    ["L"] = 11,
+    ["M"] = 12,
+    ["N"] = 13,
+    ["O"] = 14,
+    ["P"] = 15,
+    ["Q"] = 16,
+    ["R"] = 17,
+    ["S"] = 18,
+    ["T"] = 19,
+    ["U"] = 20,
+    ["V"] = 21,
+    ["W"] = 22,
+    ["X"] = 23,
+    ["Y"] = 24,
+    ["Z"] = 25
 }
 
-
 function CeaserCipherCracker(Text,BruteForce,Shift)
+    local NewText = {}
+    for i = 1, #Text do
+        NewText[i] =string.sub(Text,i,i)
+    end
+
     if BruteForce == true then
-        local StartShift = -26
+        local StartShift = -25
         Shifts = {}
-        while StartShift < 27 do
-            
+        local TextLength = #Text
+        for i = 1,48 do --48 instead of 50 cause -25 and 25 would give same result and 0 does nothing
+            if i ~= -25 or i ~= 0 then 
+                local Negative = 1
+                if index < 24 then 
+                    Negative = -1
+                end 
+                local Converted = {}
+                local NewText = ""
+                for letter, ArbiVal in pairs(Text) do
+                    local StartVal = index[letter]
+                    local NewVal = index[(math.abs(StartVal+i*Negative))%26]
+                    Converted[ArbiVal] = NewVal
+                end
+                for letter,_ in pairs(Converted) do
+                NewText = NewText .. letter
+                end 
+            end
         end
     end
 end
