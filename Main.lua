@@ -23,7 +23,7 @@ function GetRotation(PivotPointX,PivotPointY,PointX,PointY,Degrees)
 end
 
 
-CeaserCipherIndex = { --WIP
+CeaserCipherIndex = {
     ["A"] = 0,
     ["B"] = 1,
     ["C"] = 2,
@@ -64,21 +64,34 @@ function CeaserCipherCracker(Text,BruteForce,Shift)
         local TextLength = #Text
         for i = 1,48 do --48 instead of 50 cause -25 and 25 would give same result and 0 does nothing
             if i ~= -25 or i ~= 0 then 
+                print(i)
                 local Negative = 1
-                if index < 24 then 
+                if i < 24 then 
                     Negative = -1
                 end 
                 local Converted = {}
-                local NewText = ""
-                for letter, ArbiVal in pairs(Text) do
-                    local StartVal = index[letter]
-                    local NewVal = index[(math.abs(StartVal+i*Negative))%26]
+                local BT = ""
+                for ArbiVal, letter in pairs(NewText) do
+                    local StartVal = CeaserCipherIndex[letter]
+                    local NewVal = (math.abs(StartVal+i*Negative))%26
+
+                    for Key, Val in pairs(CeaserCipherIndex) do
+                        if NewVal == Val then
+                            NewVal = Key
+                        end
+                    end
                     Converted[ArbiVal] = NewVal
+                    print("Arbival = " .. ArbiVal .. " NewVal = " .. NewVal)
                 end
-                for letter,_ in pairs(Converted) do
-                NewText = NewText .. letter
+                for d,letter in pairs(Converted) do
+                    print("FH" .. letter,d)
+                      BT = BT .. letter
                 end 
+                Shifts[i] = BT
             end
         end
+        return Shifts
+    else
+        --Do tmrw
     end
 end
