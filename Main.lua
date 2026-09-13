@@ -22,7 +22,6 @@ function GetRotation(PivotPointX,PivotPointY,PointX,PointY,Degrees)
     return NewXCord,NewXCord
 end
 
-
 CeaserCipherIndex = {
     ["A"] = 0,
     ["B"] = 1,
@@ -52,46 +51,60 @@ CeaserCipherIndex = {
     ["Z"] = 25
 }
 
+function GetShift(Text,Shift)
+    local Negative = 1
+    if Shift < 24 then 
+        Negative = -1
+    end 
+    local Converted = {}
+    local BT = ""
+    for ArbiVal, letter in pairs(Text) do
+       local StartVal = CeaserCipherIndex[letter] 
+        if StartVal then
+            local NewVal = (math.abs(StartVal+Shift*Negative))%26
+
+          for Key, Val in pairs(CeaserCipherIndex) do
+               if NewVal == Val then
+                    NewVal = Key
+                 end
+             end
+          Converted[ArbiVal] = NewVal
+          else
+            Converted[ArbiVal] = letter
+        end
+    end
+    for d,letter in pairs(Converted) do
+        BT = BT .. letter
+     end 
+
+     return BT
+end
+
+
 function CeaserCipherCracker(Text,BruteForce,Shift)
     local NewText = {}
     for i = 1, #Text do
         NewText[i] =string.sub(Text,i,i)
     end
-
+    Shifts = {}
     if BruteForce == true then
         local StartShift = -25
-        Shifts = {}
-        local TextLength = #Text
         for i = 1,48 do --48 instead of 50 cause -25 and 25 would give same result and 0 does nothing
             if i ~= -25 or i ~= 0 then 
                 print(i)
-                local Negative = 1
-                if i < 24 then 
-                    Negative = -1
-                end 
-                local Converted = {}
-                local BT = ""
-                for ArbiVal, letter in pairs(NewText) do
-                    local StartVal = CeaserCipherIndex[letter]
-                    local NewVal = (math.abs(StartVal+i*Negative))%26
-
-                    for Key, Val in pairs(CeaserCipherIndex) do
-                        if NewVal == Val then
-                            NewVal = Key
-                        end
-                    end
-                    Converted[ArbiVal] = NewVal
-                    print("Arbival = " .. ArbiVal .. " NewVal = " .. NewVal)
+                local BT = GetShift(NewText,i)
+                if BT then
+                    Shifts[i] = BT
                 end
-                for d,letter in pairs(Converted) do
-                    print("FH" .. letter,d)
-                      BT = BT .. letter
-                end 
-                Shifts[i] = BT
             end
         end
         return Shifts
     else
-        --Do tmrw
+        local BT = GetShift(NewText,Shift)
+        if BT then 
+            Shifts[0] = BT
+            return Shifts
+        end
     end
+    return "Failed"
 end
