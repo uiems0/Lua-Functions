@@ -22,7 +22,7 @@ function GetRotation(PivotPointX,PivotPointY,PointX,PointY,Degrees)
     return NewXCord,NewXCord
 end
 
-CeaserCipherIndex = {
+UCCCI = {--Upper case
     ["A"] = 0,
     ["B"] = 1,
     ["C"] = 2,
@@ -48,54 +48,86 @@ CeaserCipherIndex = {
     ["W"] = 22,
     ["X"] = 23,
     ["Y"] = 24,
-    ["Z"] = 25
+    ["Z"] = 25,
+}
+LCCCI = {--Lower case
+    ["a"] = 0,
+    ["b"] = 1,
+    ["c"] = 2,
+    ["d"] = 3,
+    ["e"] = 4,
+    ["f"] = 5,
+    ["g"] = 6,
+    ["h"] = 7,
+    ["i"] = 8,
+    ["j"] = 9,
+    ["k"] = 10,
+    ["l"] = 11,
+    ["m"] = 12,
+    ["n"] = 13,
+    ["o"] = 14,
+    ["p"] = 15,
+    ["q"] = 16,
+    ["r"] = 17,
+    ["s"] = 18,
+    ["t"] = 19,
+    ["u"] = 20,
+    ["v"] = 21,
+    ["w"] = 22,
+    ["x"] = 23,
+    ["y"] = 24,
+    ["z"] = 25
 }
 
+
 function GetShift(Text,Shift)
-    local Negative = 1
-    if Shift < 24 then 
-        Negative = -1
-    end 
     local Converted = {}
     local BT = ""
     for ArbiVal, letter in pairs(Text) do
-       local StartVal = CeaserCipherIndex[letter] 
-        if StartVal then
-            local NewVal = (math.abs(StartVal+Shift*Negative))%26
+       local StartVal = UCCCI[letter] 
+       local IsLowerCase = false
+       if not StartVal then
+        StartVal = LCCCI[letter]
+        IsLowerCase = true
+       end
 
-          for Key, Val in pairs(CeaserCipherIndex) do
+        if StartVal then
+            local NewVal = (StartVal+Shift)%26
+            local SelTab
+            if IsLowerCase == false then
+                SelTab = UCCCI
+            else
+                SelTab = LCCCI
+            end
+          for Key, Val in pairs(SelTab) do
                if NewVal == Val then
                     NewVal = Key
                  end
              end
-          Converted[ArbiVal] = NewVal
+            Converted[ArbiVal] = NewVal
           else
             Converted[ArbiVal] = letter
         end
     end
     for d,letter in pairs(Converted) do
         BT = BT .. letter
-     end 
-
+     end
      return BT
 end
 
 
-function CeaserCipherCracker(Text,BruteForce,Shift)
+function CeaserCipher(Text,BruteForce,Shift)
     local NewText = {}
     for i = 1, #Text do
         NewText[i] =string.sub(Text,i,i)
     end
     Shifts = {}
     if BruteForce == true then
-        local StartShift = -25
-        for i = 1,48 do --48 instead of 50 cause -25 and 25 would give same result and 0 does nothing
-            if i ~= -25 or i ~= 0 then 
-                print(i)
-                local BT = GetShift(NewText,i)
-                if BT then
-                    Shifts[i] = BT
-                end
+        for i = 1,26 do 
+            print(i)
+            local BT = GetShift(NewText,i)
+            if BT then
+                  Shifts[i] = BT
             end
         end
         return Shifts
@@ -108,3 +140,19 @@ function CeaserCipherCracker(Text,BruteForce,Shift)
     end
     return "Failed"
 end
+
+
+local Tab = CeaserCipher("dBo",true)
+
+for Index,ShiftedText in pairs(Tab) do
+    print("Index =", Index, "Text =",ShiftedText)
+end
+
+--[[Use example, returns cAn. Also you can do something like local Arr = CeaserCipher("CAN",false,1) if you want to make one yourself.
+
+local Tab = CeaserCipher("dBo",true)
+
+for Index,ShiftedText in pairs(Tab) do
+    print("Index =", Index, "Text =",ShiftedText)
+end]]
+
