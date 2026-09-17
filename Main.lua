@@ -1,3 +1,6 @@
+
+--**RotationFinder**--
+
 function GetRotation(PivotPointX,PivotPointY,PointX,PointY,Degrees)
 
     if not PointX or type(PointX) ~= "number" or not PointY or type(PointY) ~= "number" or not Degrees or type(Degrees) ~= "number" then
@@ -21,6 +24,8 @@ function GetRotation(PivotPointX,PivotPointY,PointX,PointY,Degrees)
 
     return NewXCord,NewXCord
 end
+
+--**CeaserCipherMaker/Cracker**--
 
 UCCCI = {--Upper case
     ["A"] = 0,
@@ -156,3 +161,16 @@ for Index,ShiftedText in pairs(Tab) do
     print("Index =", Index, "Text =",ShiftedText)
 end]]
 
+--**StopWatch**--
+
+local StartTime
+
+function StopWatch()
+    if StartTime == nil then
+        StartTime = os.clock()
+    else
+        local ST = StartTime
+        StartTime = nil
+        return (os.clock() - ST) * 1000
+    end
+end
