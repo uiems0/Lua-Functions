@@ -174,3 +174,38 @@ function StopWatch()
         return (os.clock() - ST) * 1000
     end
 end
+
+
+local Nouns = {
+    "bananas ",
+    "rocks ",
+    "words ",
+    "tapes ",
+    "pillows " 
+}
+
+local Verbs = {
+    "running ",
+    "jumping ",
+    "typing ",
+    "watching ",
+    "learning "
+}
+
+local Adjectives = {
+    "bad ",
+    "great ",
+    "decent "
+}
+
+
+function WriteRandomSentance()
+    local Run = math.random(1,3)
+    if Run == 1 then
+        return "There is " .. math.random(0,100) .. " " .. Nouns[math.random(1,#Nouns)]
+    elseif Run == 2 then
+        return "While " .. Verbs[math.random(1,#Verbs)] .. ", they " .. Verbs[math.random(1,#Verbs)]
+    elseif Run == 3 then
+        return "You are " .. Adjectives[math.random(1,#Adjectives)]
+    end
+end
