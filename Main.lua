@@ -209,3 +209,22 @@ function WriteRandomSentance()
         return "You are " .. Adjectives[math.random(1,#Adjectives)]
     end
 end
+
+
+function MeetsCriteria(Text)--Could add more stuff to this.
+    local NewText = {}
+    for i = 1, #Text do
+        NewText[i] =string.sub(Text,i,i)
+    end
+    if NewText[1] ~= "F"  then
+        return false
+    end
+
+    if NewText[2] == "U" or NewText[2] == "K" then
+        if NewText[3] == "4" or NewText[3] == "D" then
+            return true
+            else return false
+        end
+    else return false
+    end
+end
